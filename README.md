@@ -2,6 +2,10 @@
 
 Sistema bancário digital completo com frontend React, backend FastAPI, banco de dados PostgreSQL e pipeline de dados que extrai transações e disponibiliza no BigQuery via Cloud Functions e Airflow — arquitetura idêntica à utilizada em fintechs.
 
+## Arquitetura
+
+![Arquitetura do LucasBank](docs/arquitetura_lucasbank.png)
+
 ## Visão geral
 
 O LucasBank simula o fluxo real de dados de uma fintech:
