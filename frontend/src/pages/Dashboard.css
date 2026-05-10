@@ -1,0 +1,191 @@
+.dash {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  background: var(--black-2);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  padding: 32px 20px;
+  width: 260px;
+  min-width: 260px;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 48px;
+  padding: 0 8px;
+}
+
+.sidebar-logo {
+  width: 40px;
+  height: 40px;
+  background: var(--red);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: white;
+  flex-shrink: 0;
+}
+
+.sidebar-brand span {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--white);
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--gray);
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s;
+  text-align: left;
+  width: 100%;
+  border: 1px solid transparent;
+}
+
+.nav-item:hover { background: var(--card); color: var(--white); }
+.nav-item.active { background: var(--red-glow); color: var(--red); border-color: rgba(200,16,46,0.2); }
+.nav-icon { font-size: 16px; width: 20px; text-align: center; }
+
+.logout-btn {
+  background: transparent;
+  color: var(--gray-2);
+  font-size: 13px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  text-align: left;
+  transition: all 0.2s;
+  width: 100%;
+  border: none;
+}
+.logout-btn:hover { color: var(--error); background: rgba(239,68,68,0.05); }
+
+.main {
+  margin-left: 260px;
+  flex: 1;
+  background: var(--black);
+  min-height: 100vh;
+  position: relative;
+  overflow-y: auto;
+}
+
+.toast {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  padding: 14px 24px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  z-index: 1000;
+  animation: slideIn 0.3s ease;
+}
+.toast-success { background: rgba(34,197,94,0.15); border: 1px solid rgba(34,197,94,0.3); color: var(--success); }
+.toast-error { background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.3); color: var(--error); }
+@keyframes slideIn { from { transform: translateX(100px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+.page {
+  padding: 40px;
+  max-width: 860px;
+}
+
+.page-header { margin-bottom: 32px; }
+.greeting { color: var(--gray); font-size: 14px; margin-bottom: 4px; }
+.page-header h1 { font-size: 36px; font-weight: 700; color: var(--white); line-height: 1.1; }
+.client-id { color: var(--gray-2); font-size: 12px; margin-top: 6px; font-family: monospace; }
+
+.saldo-card {
+  background: linear-gradient(135deg, #1a0508 0%, #2a0810 50%, #1a0508 100%);
+  border: 1px solid rgba(200,16,46,0.3);
+  border-radius: 20px;
+  padding: 36px;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+}
+.saldo-label { color: var(--gray); font-size: 12px; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px; }
+.saldo-valor { font-size: 44px; font-weight: 700; color: var(--white); letter-spacing: -2px; }
+.saldo-decoration { position: absolute; width: 280px; height: 280px; border-radius: 50%; border: 1px solid rgba(200,16,46,0.1); top: -80px; right: -60px; }
+
+.stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 32px; }
+.stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 20px; }
+.stat-label { color: var(--gray); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+.stat-valor { font-size: 20px; font-weight: 600; color: var(--white); }
+
+.section-title { font-size: 15px; font-weight: 600; color: var(--white); margin-bottom: 14px; }
+.recent-section { margin-top: 8px; }
+
+.transacoes-list { display: flex; flex-direction: column; gap: 8px; }
+.transacao-item { display: flex; align-items: center; gap: 14px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px 18px; }
+.transacao-icon { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
+.transacao-icon.positive { background: rgba(34,197,94,0.1); color: var(--success); }
+.transacao-icon.negative { background: rgba(200,16,46,0.1); color: var(--red); }
+.transacao-info { flex: 1; min-width: 0; }
+.transacao-desc { font-size: 14px; font-weight: 500; color: var(--white); margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.transacao-tipo { font-size: 12px; color: var(--gray); }
+.transacao-valor { font-size: 14px; font-weight: 600; white-space: nowrap; }
+.transacao-valor.positive { color: var(--success); }
+.transacao-valor.negative { color: var(--red); }
+
+.form-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 36px; max-width: 520px; }
+.form-section-title { font-size: 15px; font-weight: 600; color: var(--white); margin-bottom: 20px; }
+.form-field { margin-bottom: 20px; }
+.form-field label { display: block; font-size: 11px; font-weight: 500; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+.form-field input, .form-field select { width: 100%; background: var(--black-2); border: 1px solid var(--border); border-radius: 10px; padding: 12px 16px; color: var(--white); font-size: 14px; transition: border-color 0.2s; }
+.form-field input:focus, .form-field select:focus { border-color: var(--red); }
+.form-field select option { background: var(--black-2); }
+
+.input-prefix { display: flex; align-items: center; background: var(--black-2); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; transition: border-color 0.2s; }
+.input-prefix:focus-within { border-color: var(--red); }
+.input-prefix span { padding: 12px 14px; color: var(--gray); font-size: 14px; border-right: 1px solid var(--border); background: var(--card); }
+.input-prefix input { border: none !important; border-radius: 0 !important; background: transparent !important; flex: 1; padding: 12px 14px; }
+
+.saldo-atual { font-size: 13px; color: var(--gray); margin-bottom: 20px; }
+.saldo-atual strong { color: var(--white); }
+
+.action-btn { width: 100%; background: var(--red); color: white; padding: 14px; border-radius: 10px; font-size: 14px; font-weight: 600; transition: all 0.2s; border: none; }
+.action-btn:hover:not(:disabled) { background: var(--red-dark); box-shadow: 0 8px 30px var(--red-glow); transform: translateY(-1px); }
+.action-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.inv-tipos { display: flex; flex-wrap: wrap; gap: 8px; }
+.tipo-chip { background: var(--black-2); border: 1px solid var(--border); color: var(--gray); padding: 7px 14px; border-radius: 20px; font-size: 13px; transition: all 0.2s; }
+.tipo-chip.active { background: var(--red-glow); border-color: var(--red); color: var(--red); }
+.tipo-chip:hover { border-color: var(--red); color: var(--red); }
+
+.inv-lista { margin-top: 28px; }
+.inv-item { display: flex; align-items: center; justify-content: space-between; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 18px 22px; margin-bottom: 8px; }
+.inv-tipo { font-size: 14px; font-weight: 600; color: var(--white); margin-bottom: 4px; }
+.inv-valor { font-size: 13px; color: var(--gray); }
+.resgatar-btn { background: transparent; border: 1px solid var(--border); color: var(--gray); padding: 7px 18px; border-radius: 8px; font-size: 13px; transition: all 0.2s; }
+.resgatar-btn:hover:not(:disabled) { border-color: var(--success); color: var(--success); }
+.inv-total { text-align: right; font-size: 13px; color: var(--gray); margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
+.inv-total strong { color: var(--white); }
+
+.empty-state { text-align: center; color: var(--gray); padding: 60px; font-size: 14px; }
