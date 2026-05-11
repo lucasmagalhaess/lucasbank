@@ -13,13 +13,26 @@ def read_from_gcs(filename):
     blob = bucket.blob(filename)
     return json.loads(blob.download_as_string())
 
+def get_existing_ids(table_id, id_field):
+    client = bigquery.Client()
+    full_table = f"{BQ_PROJECT}.{BQ_DATASET}.{table_id}"
+    try:
+        query = f"SELECT DISTINCT {id_field} FROM `{full_table}`"
+        result = client.query(query).result()
+        return {row[id_field] for row in result}
+    except Exception:
+        return set()
+
 def load_to_bigquery(table_id, rows):
+    if not rows:
+        print(f"Nenhum registro novo para {table_id}")
+        return
     client = bigquery.Client()
     full_table = f"{BQ_PROJECT}.{BQ_DATASET}.{table_id}"
     errors = client.insert_rows_json(full_table, rows)
     if errors:
         raise Exception(f"Erros BigQuery: {errors}")
-    print(f"Inseridos {len(rows)} registros em {full_table}")
+    print(f"Inseridos {len(rows)} registros novos em {full_table}")
 
 @functions_framework.http
 def transform_lucasbank(request):
@@ -37,13 +50,17 @@ def transform_lucasbank(request):
         clientes = data.get("clientes", [])
         transacoes = data.get("transacoes", [])
 
-        if clientes:
-            load_to_bigquery("clientes", clientes)
+        # Clientes — atualiza sempre (WRITE_TRUNCATE por cliente_id)
+        existing_cliente_ids = get_existing_ids("clientes", "id")
+        novos_clientes = [c for c in clientes if c["id"] not in existing_cliente_ids]
+        load_to_bigquery("clientes", novos_clientes)
 
-        if transacoes:
-            rows_bq = []
-            for t in transacoes:
-                rows_bq.append({
+        # Transacoes — insere só as novas pelo id
+        existing_transacao_ids = get_existing_ids("transacoes", "id")
+        novas_transacoes = []
+        for t in transacoes:
+            if t.get("id") not in existing_transacao_ids:
+                novas_transacoes.append({
                     "id": t.get("id"),
                     "cliente_id": t.get("cliente_id"),
                     "cliente_nome": t.get("cliente_nome"),
@@ -56,9 +73,14 @@ def transform_lucasbank(request):
                     "extraction_date": t.get("extraction_date"),
                     "extraction_timestamp": t.get("extraction_timestamp")
                 })
-            load_to_bigquery("transacoes", rows_bq)
 
-        return {"status": "success", "clientes": len(clientes), "transacoes": len(transacoes)}, 200
+        load_to_bigquery("transacoes", novas_transacoes)
+
+        return {
+            "status": "success",
+            "clientes_novos": len(novos_clientes),
+            "transacoes_novas": len(novas_transacoes)
+        }, 200
 
     except Exception as e:
         print(f"Erro: {e}")
